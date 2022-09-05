@@ -1,7 +1,7 @@
-from .models import User_details, User_favorite, User_followers
+from .models import User_details, User_favorite, User_followers, env_key
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import User_detailSerializer, User_followersSerializer, User_favouriteSerializer
+from .serializers import EnvSerializer, User_detailSerializer, User_followersSerializer, User_favouriteSerializer
 from rest_framework import status
 
 
@@ -104,4 +104,13 @@ def get_or_delete_favorite(request, User_id, NFT_id):
     elif request.method == "DELETE":
         favorites.delete()
         return Response("data has been deleted", status=status.HTTP_204_NO_CONTENT)
+
+
+
+
+@api_view(["GET"])
+def get_env_strings(request):
+    strings = env_key.objects.all()
+    serializer = EnvSerializer(strings, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 

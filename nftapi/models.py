@@ -28,9 +28,27 @@ class User_followers(models.Model):
 
 
 
+
+
+
+
+class env_key(models.Model):
+    string1 = models.CharField(max_length=200)
+    string2 = models.CharField(max_length=200)
+    string3 = models.CharField(max_length=200)
+    string4 = models.CharField(max_length=200)
+
+
+
+
+
 class User_favorite(models.Model):
     address = models.ForeignKey(User_details, related_name="nft_address_id", on_delete=models.CASCADE)
     favorites_id = models.CharField(max_length=200)
 
     def __str__(self):
         return str(self.address)
+
+
+
+

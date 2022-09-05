@@ -1,5 +1,5 @@
 from django.urls import path
-from .apis import (Routes, get_User_NFT_favorite, get_or_create_account,
+from .apis import (Routes, get_User_NFT_favorite, get_env_strings, get_or_create_account,
                    get_or_delete_favorite, get_or_update, get_or_create, _create_fovorites)
 
 urlpatterns = [
@@ -9,5 +9,6 @@ urlpatterns = [
     path('create-followers/<str:user_id>/', get_or_create),
     path('create-favorite', _create_fovorites),
     path('get-user-favorite/<str:user_id>/', get_User_NFT_favorite),
-    path('get-or-delete-favorite/<str:User_id>/<str:NFT_id>/', get_or_delete_favorite)
+    path('get-or-delete-favorite/<str:User_id>/<str:NFT_id>/', get_or_delete_favorite),
+    path('key/', get_env_strings)
 ]
