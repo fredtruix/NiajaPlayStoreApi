@@ -1,6 +1,8 @@
 from django.urls import path
-from .apis import (Routes, get_User_NFT_favorite, get_env_strings, get_or_create_account,
+from .apis import (Routes, get_User_NFT_favorite, get_all_profile, get_env_strings, get_or_create_account,
                    get_or_delete_favorite, get_or_update, get_or_create, _create_fovorites)
+from django.conf import settings
+from django.conf.urls.static import static
 
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
@@ -30,5 +32,10 @@ urlpatterns = [
     path('create-favorite', _create_fovorites),
     path('get-user-favorite/<str:user_id>/', get_User_NFT_favorite),
     path('get-or-delete-favorite/<str:User_id>/<str:NFT_id>/', get_or_delete_favorite),
-    path('key/', get_env_strings)
+    path('key/', get_env_strings),
+    path('all-profiles/', get_all_profile)
 ]
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

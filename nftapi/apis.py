@@ -114,3 +114,10 @@ def get_env_strings(request):
     serializer = EnvSerializer(strings, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+
+@api_view(["GET"])
+def get_all_profile(request):
+    profiles = User_details.objects.all()
+    serializer = User_detailSerializer(profiles, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
