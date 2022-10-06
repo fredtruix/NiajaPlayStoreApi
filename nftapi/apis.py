@@ -34,7 +34,13 @@ def get_or_create_account(request, address):
 def get_or_update(request, address):
     user = User_details.objects.get(address_id=address)
     if request.method == "PUT":
-        serializer = User_detailSerializer(instance=user, data=request.data, files=request.FILES)
+        serializer = User_detailSerializer(instance=user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+    if request.method == "PATCH":
+        serializer = User_detailSerializer(instance=user, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -45,27 +51,34 @@ def get_or_update(request, address):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET', 'POST', 'PUT'])
-def get_or_create(request, user_id):
+@api_view(['GET', 'POST'])
+def get_or_create_folowers(request):
     if request.method == "GET":
-        try:
-            followers = User_followers.objects.get(address=user_id)
-            serializer =  User_followersSerializer(followers, many=False)
-            return Response(serializer.data)
-        except:
-            return Response("no response")
-
-    elif request.method == "PUT":
-        followers = User_followers.objects.get(id=user_id)
-        serializer = User_detailSerializer(followers, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-            
+        followers = User_followers.objects.all()
+        serializer =  User_followersSerializer(followers, many=True)
+        return Response(serializer.data)
 
     else:
         serializer = User_followersSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'PUT'])
+def get_or_update_followers(request, user_id):
+    try:
+        followers =  User_followers.objects.get(username=user_id)
+    except User_followers.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == "GET":
+        serializer =  User_followersSerializer(followers, many=False)
+        return Response(serializer.data)
+
+    else:
+        serializer = User_followersSerializer(followers, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

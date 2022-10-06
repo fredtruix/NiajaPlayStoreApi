@@ -20,11 +20,11 @@ class User_details(models.Model):
 
 
 class User_followers(models.Model):
-    address = models.OneToOneField(User_details, related_name="nft_address", on_delete=models.CASCADE)
+    username = models.OneToOneField(User_details, related_name="nft_address", on_delete=models.CASCADE)
     followers = models.ManyToManyField(User_details, blank=True)
 
     def __str__(self):
-        return f'{self.address}'
+        return f'{self.username}'
 
 
 
