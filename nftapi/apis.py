@@ -69,7 +69,7 @@ def get_or_create_folowers(request):
 @api_view(['GET', 'PUT'])
 def get_or_update_followers(request, user_id):
     try:
-        followers =  User_followers.objects.get(username=user_id)
+        followers =  User_followers.objects.get(address=user_id)
     except User_followers.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
