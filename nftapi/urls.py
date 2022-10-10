@@ -27,7 +27,7 @@ urlpatterns = [
     path('redoc/', schema_view.with_ui('redoc',
          cache_timeout=0), name='schema-redoc'),
     path('create-account/<str:address>/', get_or_create_account),
-    path('update/<str:address>/', get_or_update),
+    path('update/<str:pk>/', get_or_update),
     path('get-or-create-followers/', get_or_create_folowers),
     path('get-or-update-followers/<str:user_id>/', get_or_update_followers),
     path('create-favorite', _create_fovorites),

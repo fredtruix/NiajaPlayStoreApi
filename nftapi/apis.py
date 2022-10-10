@@ -31,8 +31,8 @@ def get_or_create_account(request, address):
 
 
 @api_view(['PUT','GET','PATCH'])
-def get_or_update(request, address):
-    user = User_details.objects.get(address_id=address)
+def get_or_update(request, pk):
+    user = User_details.objects.get(id=pk)
     if request.method == "PUT":
         serializer = User_detailSerializer(instance=user, data=request.data)
         if serializer.is_valid():
